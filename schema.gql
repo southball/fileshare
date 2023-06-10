@@ -1,0 +1,56 @@
+
+type File {
+	id: Int!
+	name: String!
+	isPublic: Boolean!
+	createdAt: NaiveDateTime!
+	downloadUrl: String!
+	user: User!
+}
+
+scalar FileId
+
+input FileInput {
+	name: String!
+	isPublic: Boolean!
+	uuid: String!
+}
+
+
+
+
+type Mutation {
+	uploadTarget: UploadTarget!
+	createFile(input: FileInput!): File!
+}
+
+"""
+ISO 8601 combined date and time without timezone.
+
+# Examples
+
+* `2015-07-01T08:59:60.123`,
+"""
+scalar NaiveDateTime
+
+type Query {
+	file(id: FileId!): File!
+	myFiles: [File!]!
+}
+
+
+type UploadTarget {
+	uuid: String!
+	url: String!
+}
+
+type User {
+	id: Int!
+	username: String!
+	displayName: String!
+}
+
+schema {
+	query: Query
+	mutation: Mutation
+}

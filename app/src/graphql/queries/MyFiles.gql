@@ -1,0 +1,8 @@
+query MyFiles {
+  myFiles {
+    id
+    name
+    isPublic
+    createdAt
+  }
+}

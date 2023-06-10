@@ -1,0 +1,6 @@
+mutation UploadTarget {
+  uploadTarget {
+    uuid
+    url
+  }
+}

@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:15
+    ports:
+      - 127.0.0.1:5432:5432
+    environment:
+      POSTGRES_PASSWORD: postgres
+
+  minio:
+    image: quay.io/minio/minio:latest
+    environment:
+      MINIO_ROOT_USER: root
+      MINIO_ROOT_PASSWORD: password
+      MINIO_SERVER_URL: http://localhost:9000
+      MINIO_BROWSER_REDIRECT_URL: http://localhost:9000
+    command: server --console-address ":9001" /data
+    ports:
+      - 127.0.0.1:9000:9000
+      - 127.0.0.1:9001:9001

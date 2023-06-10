@@ -1,0 +1,5 @@
+mutation CreateFile($input: FileInput!) {
+  createFile(input: $input) {
+    __typename
+  }
+}

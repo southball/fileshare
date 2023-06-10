@@ -1,0 +1,5 @@
+query DownloadFile($id: FileId!) {
+  file(id: $id) {
+    downloadUrl
+  }
+}
