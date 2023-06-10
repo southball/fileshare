@@ -51,4 +51,18 @@ impl File {
             .await?;
         File::get_by_ids(&mut *conn, &ids[..]).await
     }
+
+    pub async fn get_all_public_by_user_ids(
+        conn: &mut PgConnection,
+        user_ids: &[i32],
+    ) -> anyhow::Result<Vec<File>> {
+        let ids = sqlx::query!(
+            "SELECT id FROM files WHERE user_id = ANY($1) AND is_public = true",
+            user_ids
+        )
+        .map(|row| row.id)
+        .fetch_all(&mut *conn)
+        .await?;
+        File::get_by_ids(&mut *conn, &ids[..]).await
+    }
 }

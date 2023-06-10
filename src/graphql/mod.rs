@@ -1,3 +1,4 @@
+mod guards;
 mod loaders;
 mod scalars;
 mod schema;

@@ -10,7 +10,7 @@ use chrono::NaiveDateTime;
 pub struct File {
     pub id: i32,
     #[graphql(skip)]
-    pub user_id: i32,
+    pub user_id: UserId,
     pub name: String,
     #[graphql(skip)]
     pub uuid: String,
@@ -35,10 +35,19 @@ impl File {
     async fn user(&self, ctx: &Context<'_>) -> Result<User> {
         let loader = ctx.data::<DataLoader<DataLoaderStruct>>().unwrap();
         let user = loader
-            .load_one(UserId(self.user_id))
+            .load_one(self.user_id)
             .await?
             .ok_or_else(|| Error::from("User not found"))?;
         Ok(user.into())
+    }
+
+    async fn file_shares(&self, ctx: &Context<'_>) -> Result<Vec<FileShare>> {
+        let loader = ctx.data::<DataLoader<DataLoaderStruct>>().unwrap();
+        let file_shares = loader
+            .load_one(FileSharesByFileId(FileId(self.id)))
+            .await?
+            .ok_or_else(|| Error::from("FileShare not found"))?;
+        Ok(file_shares)
     }
 }
 
@@ -46,7 +55,7 @@ impl From<crate::models::File> for File {
     fn from(file: crate::models::File) -> Self {
         Self {
             id: file.id,
-            user_id: file.user_id,
+            user_id: UserId(file.user_id),
             name: file.name,
             uuid: file.uuid,
             is_public: file.is_public,

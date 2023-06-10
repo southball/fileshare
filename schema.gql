@@ -6,6 +6,7 @@ type File {
 	createdAt: NaiveDateTime!
 	downloadUrl: String!
 	user: User!
+	fileShares: [FileShare!]!
 }
 
 scalar FileId
@@ -16,12 +17,25 @@ input FileInput {
 	uuid: String!
 }
 
+type FileShare {
+	id: Int!
+	createdAt: NaiveDateTime!
+	file: File!
+	user: User!
+}
+
+input FileShareInput {
+	fileId: FileId!
+	userId: UserId!
+}
+
 
 
 
 type Mutation {
 	uploadTarget: UploadTarget!
 	createFile(input: FileInput!): File!
+	createFileShare(input: FileShareInput!): FileShare!
 }
 
 """
@@ -34,6 +48,7 @@ ISO 8601 combined date and time without timezone.
 scalar NaiveDateTime
 
 type Query {
+	users: [User!]!
 	file(id: FileId!): File!
 	myFiles: [File!]!
 }
@@ -48,7 +63,10 @@ type User {
 	id: Int!
 	username: String!
 	displayName: String!
+	publicFiles: [File!]!
 }
+
+scalar UserId
 
 schema {
 	query: Query

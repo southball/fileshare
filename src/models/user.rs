@@ -103,6 +103,12 @@ impl User {
         Ok(User::get_by_ids(conn, &[id]).await?.get(0).cloned())
     }
 
+    pub async fn get_all(conn: &mut PgConnection) -> anyhow::Result<Vec<User>> {
+        Ok(sqlx::query_as!(User, "SELECT * FROM users")
+            .fetch_all(&mut *conn)
+            .await?)
+    }
+
     pub fn verify_password(&self, password: &str) -> bool {
         let argon2 = Argon2::default();
         let Ok(password_hash) = PasswordHash::new(&self.password_hash) else {

@@ -23,12 +23,14 @@ export type Scalars = {
    * * `2015-07-01T08:59:60.123`,
    */
   NaiveDateTime: { input: any; output: any; }
+  UserId: { input: any; output: any; }
 };
 
 export type File = {
   __typename?: 'File';
   createdAt: Scalars['NaiveDateTime']['output'];
   downloadUrl: Scalars['String']['output'];
+  fileShares: Array<FileShare>;
   id: Scalars['Int']['output'];
   isPublic: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
@@ -41,9 +43,23 @@ export type FileInput = {
   uuid: Scalars['String']['input'];
 };
 
+export type FileShare = {
+  __typename?: 'FileShare';
+  createdAt: Scalars['NaiveDateTime']['output'];
+  file: File;
+  id: Scalars['Int']['output'];
+  user: User;
+};
+
+export type FileShareInput = {
+  fileId: Scalars['FileId']['input'];
+  userId: Scalars['UserId']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createFile: File;
+  createFileShare: FileShare;
   uploadTarget: UploadTarget;
 };
 
@@ -52,10 +68,16 @@ export type MutationCreateFileArgs = {
   input: FileInput;
 };
 
+
+export type MutationCreateFileShareArgs = {
+  input: FileShareInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   file: File;
   myFiles: Array<File>;
+  users: Array<User>;
 };
 
 
@@ -73,6 +95,7 @@ export type User = {
   __typename?: 'User';
   displayName: Scalars['String']['output'];
   id: Scalars['Int']['output'];
+  publicFiles: Array<File>;
   username: Scalars['String']['output'];
 };
 
