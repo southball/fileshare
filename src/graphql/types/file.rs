@@ -1,3 +1,4 @@
+use super::super::guards::*;
 use super::super::loaders::DataLoaderStruct;
 use super::super::scalars::*;
 use super::*;
@@ -41,6 +42,7 @@ impl File {
         Ok(user)
     }
 
+    #[graphql(guard = "FileOwnerGuard(FileId(self.id))")]
     async fn file_shares(&self, ctx: &Context<'_>) -> Result<Vec<FileShare>> {
         let loader = ctx.data::<DataLoader<DataLoaderStruct>>().unwrap();
         let file_shares = loader
