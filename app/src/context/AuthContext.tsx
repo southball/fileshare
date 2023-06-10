@@ -26,7 +26,7 @@ const AuthContext = createContext<AuthContextType>({
   refetch: () => {
     throw new Error("Context is not initialized");
   },
-  login: (_username, _password) => {
+  login: () => {
     throw new Error("Context is not initialized");
   },
   logout: () => {
@@ -34,6 +34,7 @@ const AuthContext = createContext<AuthContextType>({
   },
 });
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -54,21 +55,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       await refetchUser();
       setIsInitialLoading(false);
     })();
-  }, []);
+  }, [refetchUser]);
 
-  const login = useCallback(async (username: string, password: string) => {
-    await fetch("/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username,
-        password,
-      }),
-    });
-    return await refetchUser();
-  }, []);
+  const login = useCallback(
+    async (username: string, password: string) => {
+      await fetch("/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      });
+      return await refetchUser();
+    },
+    [refetchUser]
+  );
 
   const logout = useCallback(async () => {
     await fetch("/auth/logout", {
@@ -76,7 +80,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     });
     setUser(null);
     resetUrql();
-  }, []);
+  }, [resetUrql]);
 
   return (
     <AuthContext.Provider

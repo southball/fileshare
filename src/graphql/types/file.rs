@@ -38,7 +38,7 @@ impl File {
             .load_one(self.user_id)
             .await?
             .ok_or_else(|| Error::from("User not found"))?;
-        Ok(user.into())
+        Ok(user)
     }
 
     async fn file_shares(&self, ctx: &Context<'_>) -> Result<Vec<FileShare>> {

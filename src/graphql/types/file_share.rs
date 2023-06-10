@@ -30,7 +30,7 @@ impl FileShare {
             .load_one(self.file_id)
             .await?
             .ok_or_else(|| Error::from("File not found"))?;
-        Ok(file.into())
+        Ok(file)
     }
 
     async fn user(&self, ctx: &Context<'_>) -> Result<User> {
@@ -39,7 +39,7 @@ impl FileShare {
             .load_one(self.user_id)
             .await?
             .ok_or_else(|| Error::from("User not found"))?;
-        Ok(user.into())
+        Ok(user)
     }
 }
 

@@ -5,5 +5,10 @@ type Props = {
 };
 
 export const IndexPage: React.FC<Props> = (props) => {
-  return <div>{props.message}</div>;
+  return (
+    <div>
+      <h1>Home</h1>
+      <div>{props.message}</div>
+    </div>
+  );
 };

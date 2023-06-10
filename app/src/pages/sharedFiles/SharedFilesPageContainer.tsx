@@ -1,20 +1,19 @@
 import { useQuery } from "urql";
-import { MyFilesPage } from "./MyFilesPage";
+import { SharedFilesPage } from "./SharedFilesPage";
 import {
   DownloadFileDocument,
-  MyFilesDocument,
+  FileSharesWithMeDocument,
 } from "../../graphql/generated/graphql";
 import { useCallback } from "react";
 import { SiteLayout } from "../../layout/SiteLayout";
 import { useUrql } from "../../context/UrqlContext";
-import { useFileShareModal } from "../../modals/FileShareModal/useFileShareModal";
-import { FileShareModalContainer } from "../../modals/FileShareModal/FileShareModalContainer";
 
-export const MyFilesPageContainer = () => {
+export const SharedFilesPageContainer = () => {
   const { urqlClient } = useUrql();
-  const [{ data: myFilesData, fetching: myFilesFetching }] = useQuery({
-    query: MyFilesDocument,
-  });
+  const [{ data: fileSharesWithMeData, fetching: fileSharesWithMeFetching }] =
+    useQuery({
+      query: FileSharesWithMeDocument,
+    });
 
   const onDownloadFile = useCallback(
     async (id: number) => {
@@ -31,20 +30,20 @@ export const MyFilesPageContainer = () => {
     [urqlClient]
   );
 
-  const { openModal, modal } = useFileShareModal();
-
   return (
     <SiteLayout>
-      {myFilesFetching ? (
+      {fileSharesWithMeFetching ? (
         <div>Loading...</div>
       ) : (
-        <MyFilesPage
-          files={myFilesData?.myFiles ?? []}
+        <SharedFilesPage
+          files={
+            fileSharesWithMeData?.fileSharesWithMe.map(
+              (fileShare) => fileShare.file
+            ) ?? []
+          }
           onDownloadFile={onDownloadFile}
-          onShareFile={(fileId) => openModal(fileId)}
         />
       )}
-      <FileShareModalContainer {...modal} />
     </SiteLayout>
   );
 };

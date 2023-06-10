@@ -28,7 +28,7 @@ fn make_router(
     s3_bucket: s3::Bucket,
     session_store: SessionStore<SessionPgPool>,
 ) -> Router {
-    let schema = build_schema(pool.clone(), s3_bucket.clone()).finish();
+    let schema = build_schema(pool.clone(), s3_bucket).finish();
 
     std::fs::write("schema.gql", schema.sdl()).expect("Failed to write schema to file");
 

@@ -1,0 +1,5 @@
+mutation CreateFileShare($input: FileShareInput!) {
+  createFileShare(input: $input) {
+    __typename
+  }
+}

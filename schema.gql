@@ -51,6 +51,7 @@ type Query {
 	users: [User!]!
 	file(id: FileId!): File!
 	myFiles: [File!]!
+	fileSharesWithMe: [FileShare!]!
 }
 
 

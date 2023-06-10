@@ -27,7 +27,7 @@ export const RegisterPageContainer = () => {
         setErrorMessage(await response.text());
       }
     },
-    [username, displayName, password]
+    [username, displayName, password, navigate]
   );
 
   return (

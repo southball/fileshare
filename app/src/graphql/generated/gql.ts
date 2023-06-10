@@ -14,8 +14,11 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "mutation CreateFile($input: FileInput!) {\n  createFile(input: $input) {\n    __typename\n  }\n}": types.CreateFileDocument,
+    "mutation CreateFileShare($input: FileShareInput!) {\n  createFileShare(input: $input) {\n    __typename\n  }\n}": types.CreateFileShareDocument,
     "mutation UploadTarget {\n  uploadTarget {\n    uuid\n    url\n  }\n}": types.UploadTargetDocument,
     "query DownloadFile($id: FileId!) {\n  file(id: $id) {\n    downloadUrl\n  }\n}": types.DownloadFileDocument,
+    "query FileSharesWithMe {\n  fileSharesWithMe {\n    __typename\n    file {\n      __typename\n      id\n      name\n      createdAt\n      user {\n        __typename\n        username\n        displayName\n      }\n    }\n  }\n}": types.FileSharesWithMeDocument,
+    "query GetUsers {\n  users {\n    id\n    username\n    displayName\n  }\n}": types.GetUsersDocument,
     "query MyFiles {\n  myFiles {\n    id\n    name\n    isPublic\n    createdAt\n  }\n}": types.MyFilesDocument,
 };
 
@@ -40,11 +43,23 @@ export function graphql(source: "mutation CreateFile($input: FileInput!) {\n  cr
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "mutation CreateFileShare($input: FileShareInput!) {\n  createFileShare(input: $input) {\n    __typename\n  }\n}"): (typeof documents)["mutation CreateFileShare($input: FileShareInput!) {\n  createFileShare(input: $input) {\n    __typename\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "mutation UploadTarget {\n  uploadTarget {\n    uuid\n    url\n  }\n}"): (typeof documents)["mutation UploadTarget {\n  uploadTarget {\n    uuid\n    url\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "query DownloadFile($id: FileId!) {\n  file(id: $id) {\n    downloadUrl\n  }\n}"): (typeof documents)["query DownloadFile($id: FileId!) {\n  file(id: $id) {\n    downloadUrl\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query FileSharesWithMe {\n  fileSharesWithMe {\n    __typename\n    file {\n      __typename\n      id\n      name\n      createdAt\n      user {\n        __typename\n        username\n        displayName\n      }\n    }\n  }\n}"): (typeof documents)["query FileSharesWithMe {\n  fileSharesWithMe {\n    __typename\n    file {\n      __typename\n      id\n      name\n      createdAt\n      user {\n        __typename\n        username\n        displayName\n      }\n    }\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query GetUsers {\n  users {\n    id\n    username\n    displayName\n  }\n}"): (typeof documents)["query GetUsers {\n  users {\n    id\n    username\n    displayName\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

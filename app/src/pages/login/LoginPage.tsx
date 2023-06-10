@@ -17,6 +17,7 @@ export const LoginPage = ({
   errorMessage,
 }: Props) => (
   <form onSubmit={onSubmit}>
+    <h1>Login</h1>
     {showErrorMessage && <div css={errorMessageStyle}>{errorMessage}</div>}
     <div>
       <div>Username</div>

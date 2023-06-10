@@ -1,7 +1,7 @@
 import {
   RouteObject,
   RouterProvider,
-  createMemoryRouter,
+  createHashRouter,
 } from "react-router-dom";
 import { IndexPageContainer } from "./pages/index/IndexPageContainer";
 import { UploadPageContainer } from "./pages/upload/UploadPageContainer";
@@ -10,6 +10,7 @@ import { LogoutPageContainer } from "./pages/logout/LogoutPageContainer";
 import { LoginPageContainer } from "./pages/login/LoginPageContainer";
 import { RegisterPageContainer } from "./pages/register/RegisterPageContainer";
 import { MyPageContainer } from "./pages/myPage/MyPageContainer";
+import { SharedFilesPageContainer } from "./pages/sharedFiles/SharedFilesPageContainer";
 
 export const Router = () => {
   const routes: RouteObject[] = [
@@ -24,6 +25,10 @@ export const Router = () => {
     {
       path: "/my-files",
       element: <MyFilesPageContainer />,
+    },
+    {
+      path: "/shared-files",
+      element: <SharedFilesPageContainer />,
     },
     {
       path: "/login",
@@ -43,7 +48,7 @@ export const Router = () => {
     },
   ];
 
-  const router = createMemoryRouter(routes);
+  const router = createHashRouter(routes);
 
   return <RouterProvider router={router} />;
 };

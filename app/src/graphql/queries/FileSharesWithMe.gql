@@ -1,0 +1,16 @@
+query FileSharesWithMe {
+  fileSharesWithMe {
+    __typename
+    file {
+      __typename
+      id
+      name
+      createdAt
+      user {
+        __typename
+        username
+        displayName
+      }
+    }
+  }
+}

@@ -91,11 +91,11 @@ pub async fn auth_login(
         session.set("user_id", user.id);
         Ok(())
     } else {
-        return Err((StatusCode::FORBIDDEN, "Invalid username or password"));
+        Err((StatusCode::FORBIDDEN, "Invalid username or password"))
     }
 }
 
-pub async fn auth_logout(session: Session<SessionPgPool>) -> () {
+pub async fn auth_logout(session: Session<SessionPgPool>) {
     session.destroy();
 }
 

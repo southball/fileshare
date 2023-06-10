@@ -19,6 +19,7 @@ export const MyPage = ({
   errorMessage,
 }: Props) => (
   <form onSubmit={onSubmit}>
+    <h1>My Page</h1>
     {showErrorMessage && <div css={errorMessageStyle}>{errorMessage}</div>}
     <div>
       <div>Display name</div>

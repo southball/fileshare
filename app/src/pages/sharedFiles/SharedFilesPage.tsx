@@ -4,23 +4,19 @@ import { format as formatDate } from "date-fns";
 type Props = {
   files: { id: number; name: string; createdAt: string }[];
   onDownloadFile: (fileId: number) => void;
-  onShareFile: (fileId: number) => void;
 };
 
-export const MyFilesPage = ({ files, onDownloadFile, onShareFile }: Props) => {
+export const SharedFilesPage = ({ files, onDownloadFile }: Props) => {
   return (
     <div css={filesStyle}>
-      <h1>My Files</h1>
-      {!files.length && "No files uploaded yet."}
+      <h1>File Shares With Me</h1>
+      {!files.length && "No files shared with me."}
       {files.map((file) => (
         <div css={fileStyle}>
           <span>
             {file.name} (
             {formatDate(new Date(file.createdAt), "yyyy/MM/dd HH:mm")})
           </span>
-          <button css={textButtonStyle} onClick={() => onShareFile(file.id)}>
-            Share
-          </button>
           <button css={textButtonStyle} onClick={() => onDownloadFile(file.id)}>
             Download
           </button>

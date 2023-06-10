@@ -52,4 +52,17 @@ impl FileShare {
         .await?;
         FileShare::get_by_ids(&mut *conn, &ids[..]).await
     }
+
+    pub async fn get_all_by_user_id(
+        conn: &mut PgConnection,
+        user_id: i32,
+    ) -> anyhow::Result<Vec<FileShare>> {
+        Ok(sqlx::query_as!(
+            FileShare,
+            "SELECT * FROM file_shares WHERE user_id = $1",
+            user_id
+        )
+        .fetch_all(&mut *conn)
+        .await?)
+    }
 }

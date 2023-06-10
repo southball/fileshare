@@ -25,7 +25,7 @@ impl Query {
             .load_one(id)
             .await?
             .ok_or_else(|| Error::from("File not found"))?;
-        Ok(file.into())
+        Ok(file)
     }
 
     #[graphql(guard = "AuthGuard")]
@@ -42,6 +42,22 @@ impl Query {
             .map(From::from)
             .collect();
         Ok(files)
+    }
+
+    #[graphql(guard = "AuthGuard")]
+    async fn file_shares_with_me(&self, ctx: &Context<'_>) -> Result<Vec<FileShare>> {
+        let user = ctx
+            .data::<Option<User>>()?
+            .as_ref()
+            .ok_or_else(|| Error::from("User must be logged in to view file shares"))?;
+        let pool = ctx.data::<sqlx::PgPool>().unwrap();
+        let mut conn = pool.acquire().await?;
+        let file_shares = crate::models::FileShare::get_all_by_user_id(&mut conn, user.id)
+            .await?
+            .into_iter()
+            .map(From::from)
+            .collect();
+        Ok(file_shares)
     }
 }
 
